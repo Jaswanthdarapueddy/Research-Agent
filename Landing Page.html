@@ -1039,7 +1039,10 @@
         <span>Secured Session</span>
       </div>
     </div>
-    <div id="root">
+    <div id="root" style="position: relative; height: calc(100% - 48px);">
+      <!-- Real IBM Assistant widget mounts here, hidden until successful load -->
+      <div id="watson-widget-container" style="display: none; height: 100%; width: 100%;"></div>
+
       <!-- IBM Assistant chat widget embeds here -->
       <div class="fallback-terminal">
         <div class="term-history" id="term-history">
@@ -1079,12 +1082,22 @@
   window.wxOConfiguration = {
     orchestrationID: "f62df774d49b490da682619261009141_7971b198-8850-4b5d-9e5a-7a0b563de535",
     hostURL: "https://au-syd.watson-orchestrate.cloud.ibm.com",
-    rootElementID: "root",
+    rootElementID: "watson-widget-container",
     deploymentPlatform: "ibmcloud",
     crn: "crn:v1:bluemix:public:watsonx-orchestrate:au-syd:a/f62df774d49b490da682619261009141:7971b198-8850-4b5d-9e5a-7a0b563de535::",
     chatOptions: {
         agentId: "793e74bb-4eee-4e74-9e73-b205859b041e", 
         agentEnvironmentId: "1964875f-8f42-4189-bec5-c51f6d2324db",
+        showLauncher: false,
+        onLoad: function(instance) {
+          // Hide fallback terminal
+          const fallback = document.querySelector('.fallback-terminal');
+          if (fallback) fallback.style.display = 'none';
+          
+          // Show real watson widget container
+          const container = document.getElementById('watson-widget-container');
+          if (container) container.style.display = 'block';
+        }
     }
   };
   setTimeout(function () {
