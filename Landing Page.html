@@ -531,7 +531,7 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: space-between;
     opacity: 0.85;
   }
   .term-prefix {
@@ -545,6 +545,37 @@
     font-weight: bold;
   }
   @keyframes blink { 50% { opacity: 0; } }
+
+  /* Suggestion Chips Style */
+  .suggestion-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 20px;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: all 0.4s ease-out;
+  }
+  .suggestion-chips.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .chip-btn {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--line);
+    color: var(--paper);
+    padding: 6px 12px;
+    border-radius: 2px;
+    font-size: 10px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: 'Inter', sans-serif;
+  }
+  .chip-btn:hover {
+    border-color: var(--accent);
+    background: rgba(99, 179, 148, 0.08);
+  }
 
   /* Capabilities Grid Section */
   .features-section { padding: 120px 60px; max-width: 1400px; margin: 0 auto; }
@@ -668,7 +699,7 @@
   <div class="hero-left">
     <p class="hero-eyebrow parallax-el" data-parallax-speed="-0.1">Powered by IBM watsonx Orchestrate</p>
     <h1 class="hero-title parallax-el" data-parallax-speed="0.08">Research<br><em>Agent</em></h1>
-    <p class="hero-desc">Ask me anything about research. Powered by IBM watsonx Orchestrate.</p>
+    <p class="hero-desc">Hello! How can I help with your research today?</p>
     <a href="#chat-section" class="luxury-cta">
       <span>Initiate Session</span>
       <svg class="cta-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
@@ -703,8 +734,7 @@
 <!-- Section 3: Bento Grid Features Section -->
 <section class="bento-section" id="bento">
   <div class="section-header">
-    <p class="hero-eyebrow" style="margin-bottom: 12px;">Core Capabilities</p>
-    <h2 class="section-title">Designed for <em>discovery</em>. Built for intelligence.</h2>
+    <h2 class="section-title">Capabilities</h2>
   </div>
   
   <div class="bento-grid">
@@ -772,7 +802,13 @@
     <div id="root">
       <!-- IBM Assistant chat widget embeds here -->
       <div class="fallback-terminal">
-        <div><span class="term-prefix">></span> <span id="term-typing"></span><span class="term-cursor">|</span></div>
+        <div style="flex-grow: 1; overflow-y: auto;"><span class="term-prefix">></span> <span id="term-typing"></span><span class="term-cursor">|</span></div>
+        <div class="suggestion-chips hidden" id="suggest-chips">
+          <button class="chip-btn" onclick="sendSimulatedQuery('Summarize research papers')">Summarize research papers</button>
+          <button class="chip-btn" onclick="sendSimulatedQuery('Find research gaps')">Find research gaps</button>
+          <button class="chip-btn" onclick="sendSimulatedQuery('Discover emerging trends')">Discover emerging trends</button>
+          <button class="chip-btn" onclick="sendSimulatedQuery('Suggest innovation directions')">Suggest innovation directions</button>
+        </div>
       </div>
     </div>
   </div>
@@ -781,8 +817,7 @@
 <!-- Section 5: Core Capabilities Feature List -->
 <section class="features-section">
   <div class="section-header">
-    <p class="hero-eyebrow" style="margin-bottom: 12px;">Core Capabilities</p>
-    <h2 class="section-title">Comprehensive <em>Intelligence</em></h2>
+    <h2 class="section-title">Capabilities</h2>
   </div>
   <div class="features-grid">
     <div class="feature-item">
@@ -968,7 +1003,7 @@
   const messages = [
     "Establishing quantum interface tunnel...",
     "Securing credentials via IBM cloud platform...",
-    "Hello! I'm Research Agent AI. Ask me anything about literature reviews, research trends, gap analysis, or innovation ideas."
+    "Hello! I'm Research Agent AI. What would you like to explore?"
   ];
   let currentMsgIdx = 0;
   let currentCharIdx = 0;
@@ -980,7 +1015,7 @@
     if (currentCharIdx < msg.length) {
       termTyping.textContent += msg.charAt(currentCharIdx);
       currentCharIdx++;
-      setTimeout(typeMessage, 15 + Math.random() * 15);
+      setTimeout(typeMessage, 12 + Math.random() * 10);
     } else {
       setTimeout(() => {
         if (currentMsgIdx < messages.length - 1) {
@@ -988,11 +1023,38 @@
           currentMsgIdx++;
           currentCharIdx = 0;
           typeMessage();
+        } else {
+          const chips = document.getElementById('suggest-chips');
+          if (chips) {
+            chips.classList.remove('hidden');
+            setTimeout(() => chips.classList.add('show'), 50);
+          }
         }
       }, 700);
     }
   }
   setTimeout(typeMessage, 300);
+
+  // Simulated Query handler for interactive suggestion chips
+  function sendSimulatedQuery(query) {
+    const termTyping = document.getElementById('term-typing');
+    termTyping.innerHTML += `<br><br><span style="color: var(--accent); font-weight: bold;">User:</span> ${query}`;
+    
+    // Hide suggestions
+    const chips = document.getElementById('suggest-chips');
+    if (chips) {
+      chips.classList.remove('show');
+      setTimeout(() => chips.classList.add('hidden'), 400);
+    }
+    
+    // Simulate typing indicator and agent response
+    setTimeout(() => {
+      termTyping.innerHTML += `<br><span style="color: var(--accent); font-weight: bold;">Agent:</span> Searching local knowledge graph for "${query}"...`;
+      setTimeout(() => {
+        termTyping.innerHTML += `<br>Synthesizing research nodes. Initializing watsonx Orchestrate Assistant context...`;
+      }, 1000);
+    }, 600);
+  }
 </script>
 
 </body>
