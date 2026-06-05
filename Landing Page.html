@@ -234,54 +234,15 @@
     height: 100%;
   }
 
-  /* Asymmetric Editorial Gallery Frame */
-  .hero-editorial-frame {
+  /* Asymmetric Editorial Gallery Image */
+  .hero-editorial-image {
     width: 100%;
     max-width: 380px;
     height: 480px;
+    object-fit: cover;
     border: 1px solid var(--line);
-    position: relative;
-    padding: 40px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    background-image: linear-gradient(to top, rgba(12, 14, 20, 0.95) 0%, rgba(12, 14, 20, 0.3) 60%, transparent 100%), url('hero_visual.png');
-    background-size: cover;
-    background-position: center;
-    color: var(--paper);
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.4);
     transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1);
-  }
-  .hero-editorial-frame::before {
-    content: '';
-    position: absolute;
-    top: -10px; right: -10px;
-    width: 100%; height: 100%;
-    border: 1px solid var(--line);
-    z-index: -1;
-    pointer-events: none;
-  }
-  .frame-tag {
-    font-size: 9px;
-    font-weight: 600;
-    color: var(--accent);
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    margin-bottom: 16px;
-    display: block;
-  }
-  .frame-h {
-    font-family: 'Syne', sans-serif;
-    font-size: 24px;
-    font-weight: 700;
-    line-height: 1.2;
-    margin-bottom: 12px;
-    color: #FFFFFF;
-  }
-  .frame-p {
-    font-size: 13px;
-    font-weight: 300;
-    color: var(--muted);
-    line-height: 1.6;
   }
 
   /* Section 2: Horizontal Marquee Ticker */
@@ -708,9 +669,7 @@
     </a>
   </div>
   <div class="hero-right">
-    <div class="hero-editorial-frame parallax-el" data-parallax-speed="-0.04">
-      <p class="frame-p">Unlocking unseen correlation patterns across millions of academic domains in milliseconds.</p>
-    </div>
+    <img src="hero_visual.png" alt="Cognitive discovery visual" class="hero-editorial-image parallax-el" data-parallax-speed="-0.04">
   </div>
 </section>
 
@@ -978,7 +937,7 @@
       const cx = e.clientX - window.innerWidth / 2;
       const cy = e.clientY - window.innerHeight / 2;
       
-      document.querySelectorAll('.hero-editorial-frame').forEach(el => {
+      document.querySelectorAll('.hero-editorial-image').forEach(el => {
         el.style.transform = `translate(${cx * 0.02}px, ${cy * 0.02}px)`;
       });
     });
