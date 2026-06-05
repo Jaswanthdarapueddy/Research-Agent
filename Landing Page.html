@@ -494,6 +494,40 @@
   }
   @keyframes blink { 50% { opacity: 0; } }
 
+  /* Term input wrapper styling */
+  .term-input-wrapper {
+    display: flex;
+    align-items: center;
+    border-top: 1px solid var(--line);
+    padding-top: 16px;
+    margin-top: 16px;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: all 0.4s ease-out;
+  }
+  .term-input-wrapper.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .term-input-wrapper .term-prefix {
+    margin-right: 8px;
+  }
+  #term-input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--paper);
+    font-family: monospace;
+    font-size: 12px;
+    flex-grow: 1;
+    caret-color: var(--accent);
+  }
+  .term-history {
+    flex-grow: 1;
+    overflow-y: auto;
+    margin-bottom: 16px;
+  }
+
   /* Suggestion Chips Style */
   .suggestion-chips {
     display: flex;
@@ -1024,12 +1058,18 @@
     <div id="root">
       <!-- IBM Assistant chat widget embeds here -->
       <div class="fallback-terminal">
-        <div style="flex-grow: 1; overflow-y: auto;"><span class="term-prefix">></span> <span id="term-typing"></span><span class="term-cursor">|</span></div>
+        <div class="term-history" id="term-history">
+          <div><span class="term-prefix">></span> <span id="term-typing"></span><span class="term-cursor" id="boot-cursor">|</span></div>
+        </div>
         <div class="suggestion-chips hidden" id="suggest-chips">
           <button class="chip-btn" onclick="sendSimulatedQuery('Summarize research papers')">Summarize research papers</button>
           <button class="chip-btn" onclick="sendSimulatedQuery('Find research gaps')">Find research gaps</button>
           <button class="chip-btn" onclick="sendSimulatedQuery('Discover emerging trends')">Discover emerging trends</button>
           <button class="chip-btn" onclick="sendSimulatedQuery('Suggest innovation directions')">Suggest innovation directions</button>
+        </div>
+        <div class="term-input-wrapper hidden" id="term-input-wrapper">
+          <span class="term-prefix">></span>
+          <input type="text" id="term-input" placeholder="Type your own research query..." autocomplete="off">
         </div>
       </div>
     </div>
@@ -1208,10 +1248,20 @@
           currentCharIdx = 0;
           typeMessage();
         } else {
+          // Finished booting, hide boot cursor
+          const bootCursor = document.getElementById('boot-cursor');
+          if (bootCursor) bootCursor.style.display = 'none';
+
           const chips = document.getElementById('suggest-chips');
           if (chips) {
             chips.classList.remove('hidden');
             setTimeout(() => chips.classList.add('show'), 50);
+          }
+
+          const inputWrapper = document.getElementById('term-input-wrapper');
+          if (inputWrapper) {
+            inputWrapper.classList.remove('hidden');
+            setTimeout(() => inputWrapper.classList.add('show'), 50);
           }
         }
       }, 700);
@@ -1219,25 +1269,138 @@
   }
   setTimeout(typeMessage, 300);
 
-  // Simulated Query handler for interactive suggestion chips
+  // Keydown listener for the custom terminal input
+  const termInput = document.getElementById('term-input');
+  if (termInput) {
+    termInput.addEventListener('keydown', e => {
+      if (e.key === 'Enter') {
+        const query = termInput.value;
+        sendSimulatedQuery(query);
+        termInput.value = "";
+      }
+    });
+  }
+
+  // Simulated Query handler for interactive suggestion chips & typing
   function sendSimulatedQuery(query) {
-    const termTyping = document.getElementById('term-typing');
-    termTyping.innerHTML += `<br><br><span style="color: var(--accent); font-weight: bold;">User:</span> ${query}`;
+    if (!query || query.trim() === "") return;
     
-    // Hide suggestions
+    const termHistory = document.getElementById('term-history');
+    
+    // Add user query to history
+    termHistory.innerHTML += `
+      <div style="margin-top: 20px;">
+        <span style="color: var(--accent); font-weight: bold;">User:</span> ${query}
+      </div>
+    `;
+    
+    // Hide suggestions and input
     const chips = document.getElementById('suggest-chips');
     if (chips) {
       chips.classList.remove('show');
       setTimeout(() => chips.classList.add('hidden'), 400);
     }
+    const inputWrapper = document.getElementById('term-input-wrapper');
+    if (inputWrapper) {
+      inputWrapper.classList.remove('show');
+      setTimeout(() => inputWrapper.classList.add('hidden'), 400);
+    }
     
-    // Simulate typing indicator and agent response
+    // Scroll term-history to bottom
+    termHistory.scrollTop = termHistory.scrollHeight;
+
+    // Simulate thinking indicator
+    const thinkingId = 'thinking-' + Date.now();
+    termHistory.innerHTML += `
+      <div id="${thinkingId}" style="margin-top: 12px; color: var(--muted);">
+        <span style="color: var(--accent); font-weight: bold;">Agent:</span> Analyzing corpus, generating structured report... <span class="term-cursor">|</span>
+      </div>
+    `;
+    termHistory.scrollTop = termHistory.scrollHeight;
+    
     setTimeout(() => {
-      termTyping.innerHTML += `<br><span style="color: var(--accent); font-weight: bold;">Agent:</span> Searching local knowledge graph for "${query}"...`;
-      setTimeout(() => {
-        termTyping.innerHTML += `<br>Synthesizing research nodes. Initializing watsonx Orchestrate Assistant context...`;
-      }, 1000);
-    }, 600);
+      // Remove thinking indicator
+      const thinkingEl = document.getElementById(thinkingId);
+      if (thinkingEl) thinkingEl.remove();
+      
+      // Select response HTML based on query keywords
+      const normalized = query.toLowerCase();
+      let responseHtml = "";
+      
+      if (normalized.includes('gap') || normalized.includes('unexplored') || normalized.includes('mapping')) {
+        responseHtml = `
+<span style="color: var(--accent); font-weight: bold;">Agent:</span> <strong>REPORT GENERATION: RESEARCH GAPS</strong>
+<br>----------------------------------------
+<br><strong>01 Executive Summary</strong>
+<br>Analyzing literature for structural omissions. Significant whitespace identified in high-velocity corridors.
+<br><strong>02 Research Landscape</strong>
+<br>Current focus is heavily concentrated on standard transformer architectures and token-based synthesis.
+<br><strong>03 Research Gaps</strong>
+<br>- Lack of cross-domain benchmarks for non-textual research modalities.
+<br>- Low correlation mapping between biochemical papers and engineering frameworks.
+<br><strong>04 Key Takeaways</strong>
+<br>Targeting multi-modal cross-correlation offers highest innovation yield.
+        `;
+      } else if (normalized.includes('summarize') || normalized.includes('paper') || normalized.includes('literature')) {
+        responseHtml = `
+<span style="color: var(--accent); font-weight: bold;">Agent:</span> <strong>REPORT GENERATION: LITERATURE SUMMARY</strong>
+<br>----------------------------------------
+<br><strong>01 Executive Summary</strong>
+<br>Synthesized 4.2k active publications. Consensus shows 82% convergence on hybrid-neural semantic models.
+<br><strong>02 Research Landscape</strong>
+<br>Emerging paradigm shift from static search indices to generative cognitive mapping.
+<br><strong>03 Recommended Tools</strong>
+<br>watsonx Orchestrate pipelines, LangChain integrations, custom vector stores.
+<br><strong>04 Key Takeaways</strong>
+<br>Literature indicates shift towards decentralized knowledge retrieval systems.
+        `;
+      } else if (normalized.includes('trend') || normalized.includes('emerging') || normalized.includes('discovery')) {
+        responseHtml = `
+<span style="color: var(--accent); font-weight: bold;">Agent:</span> <strong>REPORT GENERATION: TREND DISCOVERY</strong>
+<br>----------------------------------------
+<br><strong>01 Executive Summary</strong>
+<br>Tracking velocity in emerging academic clusters. Neural-symbolic reasoning shows a +140% citation velocity.
+<br><strong>02 Research Landscape</strong>
+<br>Shift from purely statistical language modeling to logical fact verification structures.
+<br><strong>03 Innovation Suggestions</strong>
+<br>Deploy zero-shot cross-attention networks for real-time patent drift mapping.
+<br><strong>04 Key Takeaways</strong>
+<br>Velocity indicators point to symbolic hybrid models dominating the next academic cycle.
+        `;
+      } else {
+        const topic = query.charAt(0).toUpperCase() + query.slice(1);
+        responseHtml = `
+<span style="color: var(--accent); font-weight: bold;">Agent:</span> <strong>REPORT GENERATION: ${topic.toUpperCase()}</strong>
+<br>----------------------------------------
+<br><strong>01 Executive Summary</strong>
+<br>Synthesized active signals for "${topic}". High interest detected among industry R&D groups.
+<br><strong>02 Research Landscape</strong>
+<br>Existing methods utilize traditional rule-based algorithms. Moving rapidly toward autonomous agent coordination.
+<br><strong>03 Research Gaps</strong>
+<br>Lack of robust validation frameworks and standardized performance metrics for "${topic}".
+<br><strong>04 Key Takeaways</strong>
+<br>Early stage opportunities exist for immediate cross-domain implementation.
+        `;
+      }
+      
+      // Append the agent response
+      termHistory.innerHTML += `
+        <div style="margin-top: 12px; border-left: 2px solid var(--accent); padding-left: 16px; margin-bottom: 20px;">
+          ${responseHtml}
+        </div>
+      `;
+      termHistory.scrollTop = termHistory.scrollHeight;
+      
+      // Show suggestions and input back
+      if (chips) {
+        chips.classList.remove('hidden');
+        setTimeout(() => chips.classList.add('show'), 50);
+      }
+      if (inputWrapper) {
+        inputWrapper.classList.remove('hidden');
+        setTimeout(() => inputWrapper.classList.add('show'), 50);
+      }
+    }, 1500);
   }
 </script>
 
