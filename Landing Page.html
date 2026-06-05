@@ -606,6 +606,175 @@
     padding-top: 30px;
   }
 
+  /* Section 3.5: Structured Intelligence Section */
+  .intelligence-section {
+    padding: 120px 60px;
+    max-width: 1400px;
+    margin: 0 auto;
+    border-top: 1px solid var(--line);
+  }
+  
+  .intelligence-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+  }
+  
+  .intel-left {
+    position: sticky;
+    top: 120px;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+  }
+  
+  .intel-eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .intel-eyebrow::after {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: var(--accent);
+    display: inline-block;
+  }
+  
+  .intel-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(36px, 4vw, 56px);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+    color: #FFFFFF;
+  }
+  
+  .intel-desc {
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.8;
+    color: var(--muted);
+    max-width: 500px;
+  }
+
+  .output-box {
+    background: var(--card-bg);
+    border: 1px solid var(--line);
+    padding: 40px;
+    border-radius: 2px;
+    position: relative;
+    overflow: hidden;
+  }
+  .output-box::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 2px;
+    background: linear-gradient(90deg, var(--accent), transparent);
+  }
+  
+  .output-box-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #FFFFFF;
+    margin-bottom: 8px;
+  }
+  
+  .output-box-subtitle {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 24px;
+  }
+  
+  .output-list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 24px;
+  }
+  
+  .output-item {
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--paper);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .output-item span {
+    font-family: 'Syne', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--accent);
+    opacity: 0.7;
+  }
+
+  .intel-right {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .capability-item {
+    border-bottom: 1px solid var(--line);
+    padding: 30px 0;
+    display: flex;
+    gap: 30px;
+    transition: border-color 0.3s ease;
+  }
+  .capability-item:first-child {
+    padding-top: 0;
+  }
+  .capability-item:last-child {
+    border-bottom: none;
+  }
+  .capability-item:hover {
+    border-color: var(--accent);
+  }
+  
+  .capability-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--accent);
+    opacity: 0.6;
+    margin-top: 4px;
+    width: 20px;
+  }
+  
+  .capability-content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .capability-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: #FFFFFF;
+    letter-spacing: -0.01em;
+  }
+  
+  .capability-desc {
+    font-size: 13px;
+    font-weight: 300;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
   @media (max-width: 960px) {
     nav { padding: 18px 24px; }
     .hero-section { padding: 24px; padding-top: 100px; height: auto; }
@@ -615,6 +784,10 @@
     .bento-cell { padding: 30px; }
     .features-section { padding: 80px 24px; }
     .features-grid { grid-template-columns: 1fr; }
+    .intelligence-section { padding: 80px 24px; }
+    .intelligence-container { grid-template-columns: 1fr; gap: 40px; }
+    .intel-left { position: relative; top: 0; }
+    .output-list { grid-template-columns: 1fr; }
     .bleed-section { padding: 40px 24px; justify-content: center; }
     .glass-console-card { width: 100%; max-width: 440px; }
     footer { padding: 60px 24px 30px; }
@@ -635,6 +808,7 @@
   <div class="nav-links">
     <a href="#hero" class="nav-link">Start Research</a>
     <a href="#bento" class="nav-link">Capabilities</a>
+    <a href="#discovery-detail" class="nav-link">What it does</a>
     <a href="#chat-section" class="nav-link">Ask Agent</a>
   </div>
   <span class="nav-badge">watsonx</span>
@@ -715,6 +889,118 @@
         <p class="bento-p">Obtain novel research concepts, complete with feasibility analysis and cross-domain correlation maps.</p>
       </div>
       <div class="cell-visual-bar"><div class="cell-visual-fill" style="width: 90%;"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- Section 3.5: Structured Intelligence Section -->
+<section class="intelligence-section" id="discovery-detail">
+  <div class="intelligence-container">
+    <!-- Left Column: Editorial Sticky Header & Structured Output Card -->
+    <div class="intel-left">
+      <div class="intel-eyebrow">What Research Agent does</div>
+      <h2 class="intel-title">Structured intelligence,<br>on any research topic</h2>
+      <p class="intel-desc">Research Agent analyzes any topic and delivers structured, professional insights — helping researchers, students, and industry professionals understand, explore, and innovate within their subject area.</p>
+      
+      <!-- Structured Report Output visual card -->
+      <div class="output-box">
+        <h4 class="output-box-title">Structured report output</h4>
+        <div class="output-box-subtitle">Every response</div>
+        <ul class="output-list">
+          <li class="output-item"><span>01</span> Executive Summary</li>
+          <li class="output-item"><span>02</span> Research Landscape</li>
+          <li class="output-item"><span>03</span> Key Findings</li>
+          <li class="output-item"><span>04</span> Research Gaps</li>
+          <li class="output-item"><span>05</span> Innovation Suggestions</li>
+          <li class="output-item"><span>06</span> Future Directions</li>
+          <li class="output-item"><span>07</span> Recommended Tools</li>
+          <li class="output-item"><span>08</span> Challenges</li>
+          <li class="output-item"><span>09</span> Key Takeaways</li>
+        </ul>
+      </div>
+    </div>
+    
+    <!-- Right Column: Detail Items -->
+    <div class="intel-right">
+      <div class="capability-item">
+        <span class="capability-num">I</span>
+        <div class="capability-content">
+          <h3 class="capability-title">Executive Summary</h3>
+          <p class="capability-desc">Concise overview of the topic and key insights at a glance.</p>
+        </div>
+      </div>
+      
+      <div class="capability-item">
+        <span class="capability-num">II</span>
+        <div class="capability-content">
+          <h3 class="capability-title">Research Landscape</h3>
+          <p class="capability-desc">Existing technologies, methods, and recent developments.</p>
+        </div>
+      </div>
+      
+      <div class="capability-item">
+        <span class="capability-num">III</span>
+        <div class="capability-content">
+          <h3 class="capability-title">Key Findings</h3>
+          <p class="capability-desc">Important discoveries, trends, and observations from available research.</p>
+        </div>
+      </div>
+      
+      <div class="capability-item">
+        <span class="capability-num">IV</span>
+        <div class="capability-content">
+          <h3 class="capability-title">Gap Analysis</h3>
+          <p class="capability-desc">Unexplored areas and opportunities for further investigation.</p>
+        </div>
+      </div>
+      
+      <div class="capability-item">
+        <span class="capability-num">V</span>
+        <div class="capability-content">
+          <h3 class="capability-title">Innovation Ideas</h3>
+          <p class="capability-desc">Novel concepts, improvements, and potential breakthrough directions.</p>
+        </div>
+      </div>
+      
+      <div class="capability-item">
+        <span class="capability-num">VI</span>
+        <div class="capability-content">
+          <h3 class="capability-title">Comparative Analysis</h3>
+          <p class="capability-desc">Comparison of technologies, methodologies, and frameworks.</p>
+        </div>
+      </div>
+      
+      <div class="capability-item">
+        <span class="capability-num">VII</span>
+        <div class="capability-content">
+          <h3 class="capability-title">Future Directions</h3>
+          <p class="capability-desc">Predictions and recommendations for future advancements.</p>
+        </div>
+      </div>
+      
+      <div class="capability-item">
+        <span class="capability-num">VIII</span>
+        <div class="capability-content">
+          <h3 class="capability-title">Tools & Technologies</h3>
+          <p class="capability-desc">Suggested frameworks, datasets, platforms, and resources.</p>
+        </div>
+      </div>
+      
+      <div class="capability-item">
+        <span class="capability-num">IX</span>
+        <div class="capability-content">
+          <h3 class="capability-title">Challenges & Risks</h3>
+          <p class="capability-desc">Obstacles, risks, and areas requiring further validation.</p>
+        </div>
+      </div>
+      
+      <div class="capability-item">
+        <span class="capability-num">X</span>
+        <div class="capability-content">
+          <h3 class="capability-title">Actionable Steps</h3>
+          <p class="capability-desc">Practical next steps for researchers and industry professionals.</p>
+        </div>
+      </div>
     </div>
   </div>
 </section>
