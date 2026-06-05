@@ -149,22 +149,23 @@
     border-radius: 2px;
   }
 
-  /* Hero Section: Full Viewport Split Layout */
+  /* Hero Section: Centered Editorial Layout */
   .hero-section {
     height: 100vh;
-    display: grid;
-    grid-template-columns: 1.15fr 0.85fr;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
     padding: 0 60px;
     padding-top: 80px;
-    gap: 40px;
-    align-items: center;
   }
 
   .hero-left {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding-right: 40px;
+    align-items: center;
   }
 
   .hero-eyebrow {
@@ -174,6 +175,7 @@
     display: flex; align-items: center; gap: 10px;
   }
   .hero-eyebrow::before { content: ''; width: 24px; height: 1px; background: var(--accent); display: inline-block; }
+  .hero-eyebrow::after { content: ''; width: 24px; height: 1px; background: var(--accent); display: inline-block; }
 
   .hero-title {
     font-family: 'Syne', sans-serif;
@@ -189,7 +191,7 @@
 
   .hero-desc {
     font-size: 15px; font-weight: 300; line-height: 1.8;
-    color: var(--muted); max-width: 480px;
+    color: var(--muted); max-width: 600px;
     margin-bottom: 40px;
   }
 
@@ -226,24 +228,7 @@
     transform: translateX(4px);
   }
 
-  .hero-right {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    height: 100%;
-  }
 
-  /* Asymmetric Editorial Gallery Image */
-  .hero-editorial-image {
-    width: 100%;
-    max-width: 380px;
-    height: 480px;
-    object-fit: cover;
-    border: 1px solid var(--line);
-    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.4);
-    transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1);
-  }
 
   /* Section 2: Horizontal Marquee Ticker */
   .marquee-section {
@@ -623,9 +608,7 @@
 
   @media (max-width: 960px) {
     nav { padding: 18px 24px; }
-    .hero-section { grid-template-columns: 1fr; padding: 24px; padding-top: 100px; height: auto; gap: 40px; }
-    .hero-left { padding-right: 0; }
-    .hero-right { height: 400px; }
+    .hero-section { padding: 24px; padding-top: 100px; height: auto; }
     .bento-section { padding: 80px 24px; }
     .bento-grid { grid-template-columns: 1fr; grid-auto-rows: auto; }
     .cell-large-1, .cell-large-2 { grid-column: span 1; }
@@ -657,7 +640,7 @@
   <span class="nav-badge">watsonx</span>
 </nav>
 
-<!-- Hero Section: Full Viewport Split Layout -->
+<!-- Hero Section: Centered Editorial Layout -->
 <section class="hero-section" id="hero">
   <div class="hero-left">
     <p class="hero-eyebrow parallax-el" data-parallax-speed="-0.1">Powered by IBM watsonx Orchestrate</p>
@@ -667,9 +650,6 @@
       <span>Initiate Session</span>
       <svg class="cta-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
     </a>
-  </div>
-  <div class="hero-right">
-    <img src="hero_visual.png" alt="Cognitive discovery visual" class="hero-editorial-image parallax-el" data-parallax-speed="-0.04">
   </div>
 </section>
 
@@ -931,17 +911,7 @@
     });
   });
 
-  const heroSection = document.querySelector('.hero-section');
-  if (heroSection) {
-    heroSection.addEventListener('mousemove', e => {
-      const cx = e.clientX - window.innerWidth / 2;
-      const cy = e.clientY - window.innerHeight / 2;
-      
-      document.querySelectorAll('.hero-editorial-image').forEach(el => {
-        el.style.transform = `translate(${cx * 0.02}px, ${cy * 0.02}px)`;
-      });
-    });
-  }
+
 
   // Smooth background scroll shifting
   const bleedBg = document.getElementById('bleed-bg');
