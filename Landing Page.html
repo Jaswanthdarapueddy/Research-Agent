@@ -437,6 +437,24 @@
     letter-spacing: 0.1em;
     color: #FFFFFF;
   }
+  .glass-logo span:last-child {
+    animation: logoFlickerGlow 8s infinite ease-in-out;
+  }
+  @keyframes logoFlickerGlow {
+    0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+      opacity: 1;
+      text-shadow: 0 0 2px rgba(255, 255, 255, 0.2), 0 0 8px rgba(255, 255, 255, 0.1);
+    }
+    20%, 22%, 24%, 55% {
+      opacity: 0.85;
+      text-shadow: none;
+    }
+    50% {
+      opacity: 1;
+      text-shadow: 0 0 6px rgba(255, 255, 255, 0.6), 0 0 12px var(--accent);
+    }
+  }
+
   .gold-dot { width: 5px; height: 5px; background: var(--accent); border-radius: 50%; display: inline-block; box-shadow: 0 0 6px var(--accent); }
   
   .glass-status {
@@ -448,6 +466,11 @@
     text-transform: uppercase;
     color: var(--accent);
     letter-spacing: 0.05em;
+    animation: statusContainerPulse 2s infinite ease-in-out;
+  }
+  @keyframes statusContainerPulse {
+    0%, 100% { opacity: 0.7; }
+    50% { opacity: 1; filter: drop-shadow(0 0 3px var(--accent)); }
   }
   .pulse-dot {
     width: 5px;
