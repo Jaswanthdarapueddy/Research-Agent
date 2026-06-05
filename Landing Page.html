@@ -549,6 +549,56 @@
     flex-grow: 1;
     overflow-y: auto;
     margin-bottom: 16px;
+    position: relative;
+    z-index: 5;
+  }
+  
+  /* Staggered report block fade-in animations */
+  .report-output-wrapper {
+    margin-top: 12px;
+    border-left: 2px solid var(--accent);
+    padding-left: 16px;
+    margin-bottom: 20px;
+  }
+  
+  .report-block {
+    opacity: 0;
+    transform: translateY(10px);
+    animation: reportBlockReveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  .report-block:nth-child(1) { animation-delay: 0.1s; }
+  .report-block:nth-child(2) { animation-delay: 0.3s; }
+  .report-block:nth-child(3) { animation-delay: 0.5s; }
+  .report-block:nth-child(4) { animation-delay: 0.7s; }
+  .report-block:nth-child(5) { animation-delay: 0.9s; }
+  
+  @keyframes reportBlockReveal {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Scanline terminal screen overlay animation */
+  .fallback-terminal {
+    position: relative;
+    overflow: hidden;
+  }
+  .fallback-terminal::before {
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.12) 50%);
+    background-size: 100% 4px;
+    z-index: 10;
+    pointer-events: none;
+    animation: scanlineScroll 6s linear infinite;
+    opacity: 0.4;
+  }
+  @keyframes scanlineScroll {
+    0% { background-position: 0 0; }
+    100% { background-position: 0 100%; }
   }
 
   /* Suggestion Chips Style */
@@ -1349,63 +1399,42 @@
       
       if (normalized.includes('gap') || normalized.includes('unexplored') || normalized.includes('mapping')) {
         responseHtml = `
-<span style="color: var(--accent); font-weight: bold;">Agent:</span> <strong>REPORT GENERATION: RESEARCH GAPS</strong>
-<br>----------------------------------------
-<br><strong>01 Executive Summary</strong>
-<br>Analyzing literature for structural omissions. Significant whitespace identified in high-velocity corridors.
-<br><strong>02 Research Landscape</strong>
-<br>Current focus is heavily concentrated on standard transformer architectures and token-based synthesis.
-<br><strong>03 Research Gaps</strong>
-<br>- Lack of cross-domain benchmarks for non-textual research modalities.
-<br>- Low correlation mapping between biochemical papers and engineering frameworks.
-<br><strong>04 Key Takeaways</strong>
-<br>Targeting multi-modal cross-correlation offers highest innovation yield.
+          <div class="report-block"><span style="color: var(--accent); font-weight: bold;">Agent:</span> <strong>REPORT GENERATION: RESEARCH GAPS</strong></div>
+          <div class="report-block" style="margin-top: 8px; border-top: 1px dashed var(--line); padding-top: 8px;"><strong>01 Executive Summary</strong><br>Analyzing literature for structural omissions. Significant whitespace identified in high-velocity corridors.</div>
+          <div class="report-block" style="margin-top: 12px;"><strong>02 Research Landscape</strong><br>Current focus is concentrated on standard transformer architectures and token-based synthesis.</div>
+          <div class="report-block" style="margin-top: 12px;"><strong>03 Research Gaps</strong><br>- Lack of cross-domain benchmarks for non-textual research modalities.<br>- Low correlation mapping between biochemical papers and engineering frameworks.</div>
+          <div class="report-block" style="margin-top: 12px;"><strong>04 Key Takeaways</strong><br>Targeting multi-modal cross-correlation offers highest innovation yield.</div>
         `;
       } else if (normalized.includes('summarize') || normalized.includes('paper') || normalized.includes('literature')) {
         responseHtml = `
-<span style="color: var(--accent); font-weight: bold;">Agent:</span> <strong>REPORT GENERATION: LITERATURE SUMMARY</strong>
-<br>----------------------------------------
-<br><strong>01 Executive Summary</strong>
-<br>Synthesized 4.2k active publications. Consensus shows 82% convergence on hybrid-neural semantic models.
-<br><strong>02 Research Landscape</strong>
-<br>Emerging paradigm shift from static search indices to generative cognitive mapping.
-<br><strong>03 Recommended Tools</strong>
-<br>watsonx Orchestrate pipelines, LangChain integrations, custom vector stores.
-<br><strong>04 Key Takeaways</strong>
-<br>Literature indicates shift towards decentralized knowledge retrieval systems.
+          <div class="report-block"><span style="color: var(--accent); font-weight: bold;">Agent:</span> <strong>REPORT GENERATION: LITERATURE SUMMARY</strong></div>
+          <div class="report-block" style="margin-top: 8px; border-top: 1px dashed var(--line); padding-top: 8px;"><strong>01 Executive Summary</strong><br>Synthesized 4.2k active publications. Consensus shows 82% convergence on hybrid-neural semantic models.</div>
+          <div class="report-block" style="margin-top: 12px;"><strong>02 Research Landscape</strong><br>Emerging paradigm shift from static search indices to generative cognitive mapping.</div>
+          <div class="report-block" style="margin-top: 12px;"><strong>03 Recommended Tools</strong><br>watsonx Orchestrate pipelines, LangChain integrations, custom vector stores.</div>
+          <div class="report-block" style="margin-top: 12px;"><strong>04 Key Takeaways</strong><br>Literature indicates shift towards decentralized knowledge retrieval systems.</div>
         `;
       } else if (normalized.includes('trend') || normalized.includes('emerging') || normalized.includes('discovery')) {
         responseHtml = `
-<span style="color: var(--accent); font-weight: bold;">Agent:</span> <strong>REPORT GENERATION: TREND DISCOVERY</strong>
-<br>----------------------------------------
-<br><strong>01 Executive Summary</strong>
-<br>Tracking velocity in emerging academic clusters. Neural-symbolic reasoning shows a +140% citation velocity.
-<br><strong>02 Research Landscape</strong>
-<br>Shift from purely statistical language modeling to logical fact verification structures.
-<br><strong>03 Innovation Suggestions</strong>
-<br>Deploy zero-shot cross-attention networks for real-time patent drift mapping.
-<br><strong>04 Key Takeaways</strong>
-<br>Velocity indicators point to symbolic hybrid models dominating the next academic cycle.
+          <div class="report-block"><span style="color: var(--accent); font-weight: bold;">Agent:</span> <strong>REPORT GENERATION: TREND DISCOVERY</strong></div>
+          <div class="report-block" style="margin-top: 8px; border-top: 1px dashed var(--line); padding-top: 8px;"><strong>01 Executive Summary</strong><br>Tracking velocity in emerging academic clusters. Neural-symbolic reasoning shows a +140% citation velocity.</div>
+          <div class="report-block" style="margin-top: 12px;"><strong>02 Research Landscape</strong><br>Shift from purely statistical language modeling to logical fact verification structures.</div>
+          <div class="report-block" style="margin-top: 12px;"><strong>03 Innovation Suggestions</strong><br>Deploy zero-shot cross-attention networks for real-time patent drift mapping.</div>
+          <div class="report-block" style="margin-top: 12px;"><strong>04 Key Takeaways</strong><br>Velocity indicators point to symbolic hybrid models dominating the next academic cycle.</div>
         `;
       } else {
         const topic = query.charAt(0).toUpperCase() + query.slice(1);
         responseHtml = `
-<span style="color: var(--accent); font-weight: bold;">Agent:</span> <strong>REPORT GENERATION: ${topic.toUpperCase()}</strong>
-<br>----------------------------------------
-<br><strong>01 Executive Summary</strong>
-<br>Synthesized active signals for "${topic}". High interest detected among industry R&D groups.
-<br><strong>02 Research Landscape</strong>
-<br>Existing methods utilize traditional rule-based algorithms. Moving rapidly toward autonomous agent coordination.
-<br><strong>03 Research Gaps</strong>
-<br>Lack of robust validation frameworks and standardized performance metrics for "${topic}".
-<br><strong>04 Key Takeaways</strong>
-<br>Early stage opportunities exist for immediate cross-domain implementation.
+          <div class="report-block"><span style="color: var(--accent); font-weight: bold;">Agent:</span> <strong>REPORT GENERATION: ${topic.toUpperCase()}</strong></div>
+          <div class="report-block" style="margin-top: 8px; border-top: 1px dashed var(--line); padding-top: 8px;"><strong>01 Executive Summary</strong><br>Synthesized active signals for "${topic}". High interest detected among industry R&D groups.</div>
+          <div class="report-block" style="margin-top: 12px;"><strong>02 Research Landscape</strong><br>Existing methods utilize traditional rule-based algorithms. Moving rapidly toward autonomous agent coordination.</div>
+          <div class="report-block" style="margin-top: 12px;"><strong>03 Research Gaps</strong><br>Lack of robust validation frameworks and standardized performance metrics for "${topic}".</div>
+          <div class="report-block" style="margin-top: 12px;"><strong>04 Key Takeaways</strong><br>Early stage opportunities exist for immediate cross-domain implementation.</div>
         `;
       }
       
       // Append the agent response
       termHistory.innerHTML += `
-        <div style="margin-top: 12px; border-left: 2px solid var(--accent); padding-left: 16px; margin-bottom: 20px;">
+        <div class="report-output-wrapper">
           ${responseHtml}
         </div>
       `;
