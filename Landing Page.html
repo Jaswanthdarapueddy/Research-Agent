@@ -27,7 +27,6 @@
     background-color: var(--ink);
     color: var(--paper);
     overflow-x: hidden;
-    cursor: none;
     min-height: 100vh;
     position: relative;
   }
@@ -45,7 +44,7 @@
     pointer-events: none;
   }
 
-  /* Subtle circular outlines matching the provided design mock */
+  /* Subtle circular outlines matching the design mock */
   body::after {
     content: '';
     position: fixed;
@@ -67,26 +66,7 @@
     pointer-events: none;
   }
 
-  /* Custom Premium Cursor */
-  .cursor {
-    width: 6px; height: 6px;
-    background: var(--accent);
-    border-radius: 50%;
-    position: fixed; pointer-events: none; z-index: 9999;
-    transform: translate(-50%, -50%);
-    transition: width 0.15s ease, height 0.15s ease, background 0.15s ease, transform 0.15s ease;
-  }
-  .cursor-ring {
-    width: 32px; height: 32px;
-    border: 1px solid var(--paper);
-    border-radius: 50%;
-    position: fixed; pointer-events: none; z-index: 9998;
-    transform: translate(-50%, -50%);
-    transition: transform 0.08s ease, width 0.2s ease, height 0.2s ease, border-radius 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
-    opacity: 0.3;
-  }
-
-  /* Editorial Grid Spacing Header */
+  /* Header Navigation */
   nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
     display: flex; justify-content: space-between; align-items: center;
@@ -126,7 +106,6 @@
     color: #FFFFFF;
   }
 
-  /* Underline slide hover micro-interaction */
   .nav-link::after {
     content: '';
     position: absolute;
@@ -168,11 +147,38 @@
     align-items: center;
   }
 
+  /* High-level cinematic text reveal animations */
+  @keyframes revealTitle {
+    0% {
+      opacity: 0;
+      filter: blur(12px);
+      transform: translateY(40px) scale(0.98);
+    }
+    100% {
+      opacity: 1;
+      filter: blur(0);
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  @keyframes revealElement {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
   .hero-eyebrow {
     font-size: 11px; font-weight: 600;
     letter-spacing: 0.2em; text-transform: uppercase;
     color: var(--accent); margin-bottom: 24px;
     display: flex; align-items: center; gap: 10px;
+    animation: revealElement 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: 0.1s;
   }
   .hero-eyebrow::before { content: ''; width: 24px; height: 1px; background: var(--accent); display: inline-block; }
   .hero-eyebrow::after { content: ''; width: 24px; height: 1px; background: var(--accent); display: inline-block; }
@@ -183,6 +189,8 @@
     font-weight: 800; line-height: 0.95; letter-spacing: -0.05em;
     margin-bottom: 30px;
     color: #FFFFFF;
+    animation: revealTitle 1.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: 0.3s;
   }
   .hero-title em {
     font-style: normal;
@@ -193,9 +201,10 @@
     font-size: 15px; font-weight: 300; line-height: 1.8;
     color: var(--muted); max-width: 600px;
     margin-bottom: 40px;
+    animation: revealElement 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: 0.7s;
   }
 
-  /* Luxury CTA button */
   .luxury-cta {
     display: inline-flex;
     align-items: center;
@@ -213,6 +222,8 @@
     transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     width: fit-content;
     border-radius: 2px;
+    animation: revealElement 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: 0.9s;
   }
   .luxury-cta:hover {
     background: transparent;
@@ -227,8 +238,6 @@
   .luxury-cta:hover .cta-arrow {
     transform: translateX(4px);
   }
-
-
 
   /* Section 2: Horizontal Marquee Ticker */
   .marquee-section {
@@ -307,13 +316,6 @@
     overflow: hidden;
   }
   
-  /* Subtle CSS 3D Tilt rotation styling */
-  .bento-cell.tilt-card {
-    transform-style: preserve-3d;
-    transform: perspective(1000px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
-  }
-  
-  /* Update card hover: box-shadow: -6px 6px 0 0 #63B394; */
   .bento-cell:hover {
     border-color: var(--accent);
     background: var(--card-hover);
@@ -364,7 +366,6 @@
     flex-direction: column;
   }
   
-  /* Feature Indicator bar */
   .cell-visual-bar {
     width: 100%;
     height: 1px;
@@ -380,340 +381,7 @@
     width: 65%;
   }
 
-  /* Section 4: Full-Bleed Image Section with Frosted Glass Overlay Card */
-  .bleed-section {
-    position: relative;
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    padding: 0 80px;
-    overflow: hidden;
-  }
-
-  .bleed-bg {
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 120%;
-    background-size: cover;
-    background-position: center;
-    z-index: -1;
-    transition: transform 0.1s ease-out;
-    filter: brightness(0.6);
-  }
-
-  /* Frosted glass console wrapper with dark background for contrast */
-  .glass-console-card {
-    background: rgba(12, 14, 20, 0.85); /* Mapped to ink background */
-    border: 1px solid var(--line);
-    backdrop-filter: blur(25px);
-    -webkit-backdrop-filter: blur(25px);
-    width: 480px;
-    height: 520px;
-    border-radius: 2px;
-    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    transform-style: preserve-3d;
-    transform: perspective(1000px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
-    transition: transform 0.1s ease-out;
-  }
-
-  .glass-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 16px 24px;
-    border-bottom: 1px solid var(--line);
-    background: rgba(12, 14, 20, 0.4);
-  }
-  .glass-logo {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 11px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: #FFFFFF;
-  }
-  .glass-logo span:last-child {
-    animation: logoFlickerGlow 8s infinite ease-in-out;
-  }
-  @keyframes logoFlickerGlow {
-    0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
-      opacity: 1;
-      text-shadow: 0 0 2px rgba(255, 255, 255, 0.2), 0 0 8px rgba(255, 255, 255, 0.1);
-    }
-    20%, 22%, 24%, 55% {
-      opacity: 0.85;
-      text-shadow: none;
-    }
-    50% {
-      opacity: 1;
-      text-shadow: 0 0 6px rgba(255, 255, 255, 0.6), 0 0 12px var(--accent);
-    }
-  }
-
-  .gold-dot { width: 5px; height: 5px; background: var(--accent); border-radius: 50%; display: inline-block; box-shadow: 0 0 6px var(--accent); }
-  
-  .glass-status {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 10px;
-    font-weight: 500;
-    text-transform: uppercase;
-    color: var(--accent);
-    letter-spacing: 0.05em;
-    animation: statusContainerPulse 2s infinite ease-in-out;
-  }
-  @keyframes statusContainerPulse {
-    0%, 100% { opacity: 0.7; }
-    50% { opacity: 1; filter: drop-shadow(0 0 3px var(--accent)); }
-  }
-  .pulse-dot {
-    width: 5px;
-    height: 5px;
-    background: var(--accent);
-    border-radius: 50%;
-    animation: statusPulse 2s infinite;
-  }
-  @keyframes statusPulse {
-    0%, 100% { opacity: 0.5; }
-    50% { opacity: 1; }
-  }
-
-  #chat-widget-root {
-    flex-grow: 1;
-    height: calc(100% - 48px);
-    overflow-y: auto;
-    position: relative;
-    background: rgba(0, 0, 0, 0.2);
-  }
-
-  /* Luxurious monospaced fallback terminal inside frosted glass console */
-  .fallback-terminal {
-    padding: 30px;
-    font-family: monospace;
-    font-size: 12px;
-    color: var(--paper);
-    line-height: 1.6;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    opacity: 0.85;
-  }
-  .term-prefix {
-    color: var(--accent);
-    margin-right: 6px;
-    font-weight: bold;
-  }
-  .term-cursor {
-    animation: blink 1s step-end infinite;
-    color: var(--accent);
-    font-weight: bold;
-  }
-  @keyframes blink { 50% { opacity: 0; } }
-
-  /* Term input wrapper styling */
-  .term-input-wrapper {
-    display: flex;
-    align-items: center;
-    border-top: 1px solid var(--line);
-    padding-top: 16px;
-    margin-top: 16px;
-    opacity: 0;
-    transform: translateY(8px);
-    transition: all 0.4s ease-out;
-  }
-  .term-input-wrapper.show {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  .term-input-wrapper .term-prefix {
-    margin-right: 8px;
-  }
-  #term-input {
-    background: transparent;
-    border: none;
-    outline: none;
-    color: var(--paper);
-    font-family: monospace;
-    font-size: 12px;
-    flex-grow: 1;
-    caret-color: var(--accent);
-  }
-  .term-history {
-    flex-grow: 1;
-    overflow-y: auto;
-    margin-bottom: 16px;
-    position: relative;
-    z-index: 5;
-  }
-  
-  /* Staggered report block fade-in animations */
-  .report-output-wrapper {
-    margin-top: 12px;
-    border-left: 2px solid var(--accent);
-    padding-left: 16px;
-    margin-bottom: 20px;
-  }
-  
-  .report-block {
-    opacity: 0;
-    transform: translateY(10px);
-    animation: reportBlockReveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  }
-  .report-block:nth-child(1) { animation-delay: 0.1s; }
-  .report-block:nth-child(2) { animation-delay: 0.3s; }
-  .report-block:nth-child(3) { animation-delay: 0.5s; }
-  .report-block:nth-child(4) { animation-delay: 0.7s; }
-  .report-block:nth-child(5) { animation-delay: 0.9s; }
-  
-  @keyframes reportBlockReveal {
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  /* Scanline terminal screen overlay animation */
-  .fallback-terminal {
-    position: relative;
-    overflow: hidden;
-  }
-  .fallback-terminal::before {
-    content: " ";
-    display: block;
-    position: absolute;
-    top: 0; left: 0; bottom: 0; right: 0;
-    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.12) 50%);
-    background-size: 100% 4px;
-    z-index: 10;
-    pointer-events: none;
-    animation: scanlineScroll 6s linear infinite;
-    opacity: 0.4;
-  }
-  @keyframes scanlineScroll {
-    0% { background-position: 0 0; }
-    100% { background-position: 0 100%; }
-  }
-
-  /* Suggestion Chips Style */
-  .suggestion-chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 20px;
-    opacity: 0;
-    transform: translateY(8px);
-    transition: all 0.4s ease-out;
-  }
-  .suggestion-chips.show {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  .chip-btn {
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid var(--line);
-    color: var(--paper);
-    padding: 6px 12px;
-    border-radius: 2px;
-    font-size: 10px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    font-family: 'Inter', sans-serif;
-  }
-  .chip-btn:hover {
-    border-color: var(--accent);
-    background: rgba(99, 179, 148, 0.08);
-  }
-
-  /* Capabilities Grid Section */
-  .features-section { padding: 120px 60px; max-width: 1400px; margin: 0 auto; }
-
-  .features-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
-
-  .feature-item {
-    padding: 44px 40px;
-    border: 1px solid var(--line);
-    border-radius: 4px;
-    background: rgba(255, 255, 255, 0.005);
-    position: relative; overflow: hidden;
-    transition: background 0.3s, border-color 0.3s, color 0.3s;
-  }
-  
-  /* Feature hover bg: #1C2030; */
-  .feature-item:hover {
-    background: #1C2030;
-    border-color: var(--accent);
-    color: #FFFFFF;
-  }
-  
-  /* Feature accent bar: background: #63B394; */
-  .feature-item::before {
-    content: ''; position: absolute; top: 0; left: 0;
-    width: 3px; height: 0; background: #63B394;
-    transition: height 0.4s ease;
-  }
-  .feature-item:hover::before { height: 100%; }
-
-  .feature-icon  { font-size: 32px; margin-bottom: 18px; display: block; }
-  .feature-title {
-    font-size: 20px; font-weight: 700;
-    letter-spacing: -0.02em; margin-bottom: 12px; line-height: 1.2;
-    color: #FFFFFF;
-  }
-  .feature-item:hover .feature-title {
-    color: #FFFFFF;
-  }
-  
-  .feature-desc  { font-size: 14px; font-weight: 300; line-height: 1.75; color: var(--muted); }
-  .feature-item:hover .feature-desc {
-    color: rgba(255, 255, 255, 0.65);
-  }
-
-  /* Section 6: Minimal Luxury Footer */
-  footer {
-    padding: 80px 60px 40px;
-    border-top: 1px solid var(--line);
-    max-width: 1400px;
-    margin: 0 auto;
-  }
-
-  .footer-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 60px;
-    color: #FFFFFF;
-  }
-  .footer-logo {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: 16px;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-  }
-  .footer-links {
-    display: flex;
-    gap: 30px;
-  }
-
-  .footer-bottom {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 11px;
-    color: var(--muted);
-    border-top: 1px solid var(--line);
-    padding-top: 30px;
-  }
-
-  /* Section 3.5: Structured Intelligence Section */
+  /* Section 3.5: What Research Agent does Section */
   .intelligence-section {
     padding: 120px 60px;
     max-width: 1400px;
@@ -771,64 +439,6 @@
     max-width: 500px;
   }
 
-  .output-box {
-    background: var(--card-bg);
-    border: 1px solid var(--line);
-    padding: 40px;
-    border-radius: 2px;
-    position: relative;
-    overflow: hidden;
-  }
-  .output-box::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 2px;
-    background: linear-gradient(90deg, var(--accent), transparent);
-  }
-  
-  .output-box-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: #FFFFFF;
-    margin-bottom: 8px;
-  }
-  
-  .output-box-subtitle {
-    font-size: 11px;
-    font-weight: 500;
-    color: var(--accent);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin-bottom: 24px;
-  }
-  
-  .output-list {
-    list-style: none;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px 24px;
-  }
-  
-  .output-item {
-    font-size: 12px;
-    font-weight: 400;
-    color: var(--paper);
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-  
-  .output-item span {
-    font-family: 'Syne', sans-serif;
-    font-size: 10px;
-    font-weight: 700;
-    color: var(--accent);
-    opacity: 0.7;
-  }
-
   .intel-right {
     display: flex;
     flex-direction: column;
@@ -882,6 +492,166 @@
     line-height: 1.6;
   }
 
+  /* Section 4: Full-Bleed Image Section with Glass Console Card */
+  .bleed-section {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 80px;
+    overflow: hidden;
+  }
+
+  .bleed-bg {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-size: cover;
+    background-position: center;
+    z-index: -1;
+    filter: brightness(0.6);
+  }
+
+  .glass-console-card {
+    background: rgba(12, 14, 20, 0.85); /* Ink background translucent */
+    border: 1px solid var(--line);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    width: 480px;
+    height: 520px;
+    border-radius: 2px;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .glass-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--line);
+    background: rgba(12, 14, 20, 0.4);
+  }
+  .glass-logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #FFFFFF;
+  }
+  .gold-dot { width: 5px; height: 5px; background: var(--accent); border-radius: 50%; display: inline-block; box-shadow: 0 0 6px var(--accent); }
+  
+  .glass-status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 10px;
+    font-weight: 500;
+    text-transform: uppercase;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+  }
+  .pulse-dot {
+    width: 5px;
+    height: 5px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: statusPulse 2s infinite;
+  }
+  @keyframes statusPulse {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+  }
+
+  #chat-widget-root {
+    flex-grow: 1;
+    height: calc(100% - 48px);
+    position: relative;
+    background: rgba(0, 0, 0, 0.2);
+  }
+
+  #root {
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+  }
+
+  /* CSS-only loading state logic: if #root has elements, hide the fallback loader */
+  #root:not(:empty) + .fallback-terminal {
+    display: none;
+  }
+
+  .fallback-terminal {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    padding: 30px;
+    font-family: monospace;
+    font-size: 12px;
+    color: var(--paper);
+    background: var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.85;
+  }
+  .terminal-loader {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .term-prefix {
+    color: var(--accent);
+    font-weight: bold;
+  }
+  .term-cursor {
+    animation: blink 1s step-end infinite;
+    color: var(--accent);
+    font-weight: bold;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  /* Section 6: Footer */
+  footer {
+    padding: 80px 60px 40px;
+    border-top: 1px solid var(--line);
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .footer-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 60px;
+    color: #FFFFFF;
+  }
+  .footer-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .footer-links {
+    display: flex;
+    gap: 30px;
+  }
+
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+    color: var(--muted);
+    border-top: 1px solid var(--line);
+    padding-top: 30px;
+  }
+
   @media (max-width: 960px) {
     nav { padding: 18px 24px; }
     .hero-section { padding: 24px; padding-top: 100px; height: auto; }
@@ -889,12 +659,9 @@
     .bento-grid { grid-template-columns: 1fr; grid-auto-rows: auto; }
     .cell-large-1, .cell-large-2 { grid-column: span 1; }
     .bento-cell { padding: 30px; }
-    .features-section { padding: 80px 24px; }
-    .features-grid { grid-template-columns: 1fr; }
     .intelligence-section { padding: 80px 24px; }
     .intelligence-container { grid-template-columns: 1fr; gap: 40px; }
     .intel-left { position: relative; top: 0; }
-    .output-list { grid-template-columns: 1fr; }
     .bleed-section { padding: 40px 24px; justify-content: center; }
     .glass-console-card { width: 100%; max-width: 440px; }
     footer { padding: 60px 24px 30px; }
@@ -905,9 +672,7 @@
 </head>
 <body>
 
-<!-- Ambient Parallax Elements -->
-<div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="cursor-ring"></div>
+<!-- Ambient Background Circles -->
 <div class="bg-circle-left"></div>
 
 <nav>
@@ -924,8 +689,8 @@
 <!-- Hero Section: Centered Editorial Layout -->
 <section class="hero-section" id="hero">
   <div class="hero-left">
-    <p class="hero-eyebrow parallax-el" data-parallax-speed="-0.1">Powered by IBM watsonx Orchestrate</p>
-    <h1 class="hero-title parallax-el" data-parallax-speed="0.08">Research<br><em>Agent</em></h1>
+    <p class="hero-eyebrow">Powered by IBM watsonx Orchestrate</p>
+    <h1 class="hero-title">Research<br><em>Agent</em></h1>
     <p class="hero-desc">Hello! How can I help with your research today?</p>
     <a href="#chat-section" class="luxury-cta">
       <span>Start Discovery</span>
@@ -959,7 +724,7 @@
   
   <div class="bento-grid">
     <!-- Card 1: Large -->
-    <div class="bento-cell cell-large-1 tilt-card">
+    <div class="bento-cell cell-large-1">
       <span class="bento-num">01 / Synthesis</span>
       <div class="cell-header-wrapper">
         <h3 class="bento-h">Literature Review</h3>
@@ -969,7 +734,7 @@
     </div>
     
     <!-- Card 2: Small -->
-    <div class="bento-cell tilt-card">
+    <div class="bento-cell">
       <span class="bento-num">02 / Signals</span>
       <div class="cell-header-wrapper">
         <h3 class="bento-h">Trend Discovery</h3>
@@ -979,7 +744,7 @@
     </div>
     
     <!-- Card 3: Small -->
-    <div class="bento-cell tilt-card">
+    <div class="bento-cell">
       <span class="bento-num">03 / Mapping</span>
       <div class="cell-header-wrapper">
         <h3 class="bento-h">Gap Analysis</h3>
@@ -989,7 +754,7 @@
     </div>
     
     <!-- Card 4: Large -->
-    <div class="bento-cell cell-large-2 tilt-card">
+    <div class="bento-cell cell-large-2">
       <span class="bento-num">04 / Innovation</span>
       <div class="cell-header-wrapper">
         <h3 class="bento-h">Cognitive Suggestions</h3>
@@ -1000,15 +765,14 @@
   </div>
 </section>
 
-<!-- Section 3.5: Structured Intelligence Section -->
+<!-- Section 3.5: What Research Agent does Section -->
 <section class="intelligence-section" id="discovery-detail">
   <div class="intelligence-container">
-    <!-- Left Column: Editorial Sticky Header & Structured Output Card -->
+    <!-- Left Column: Sticky Header -->
     <div class="intel-left">
       <div class="intel-eyebrow">What Research Agent does</div>
       <h2 class="intel-title">Structured intelligence,<br>on any research topic</h2>
       <p class="intel-desc">Research Agent analyzes any topic and delivers structured, professional insights — helping researchers, students, and industry professionals understand, explore, and innovate within their subject area.</p>
-      
     </div>
     
     <!-- Right Column: Detail Items -->
@@ -1098,10 +862,9 @@
 
 <!-- Section 4: Full-Bleed Image Section with Frosted Glass Overlay Card -->
 <section class="bleed-section" id="chat-section">
-  <!-- JavaScript will animate background displacement slightly -->
   <div class="bleed-bg" id="bleed-bg" style="background-image: url('luxury_visual.png');"></div>
   
-  <div class="glass-console-card tilt-card">
+  <div class="glass-console-card">
     <div class="glass-header">
       <div class="glass-logo">
         <span class="gold-dot"></span>
@@ -1112,30 +875,19 @@
         <span>Secured Session</span>
       </div>
     </div>
-    <div id="chat-widget-root" style="position: relative; height: calc(100% - 48px);">
-      <!-- Real IBM Assistant widget mounts here, hidden until successful load -->
-      <div id="watson-widget-container" style="display: none; height: 100%; width: 100%;"></div>
+    <div id="chat-widget-root">
+      <!-- Real IBM Assistant widget mounts here -->
+      <div id="root"></div>
 
-      <!-- IBM Assistant chat widget embeds here -->
+      <!-- CSS-Only Fallback Loader -->
       <div class="fallback-terminal">
-        <div class="term-history" id="term-history">
-          <div><span class="term-prefix">></span> <span id="term-typing"></span><span class="term-cursor" id="boot-cursor">|</span></div>
-        </div>
-        <div class="suggestion-chips hidden" id="suggest-chips">
-          <button class="chip-btn" onclick="sendSimulatedQuery('Summarize research papers')">Summarize research papers</button>
-          <button class="chip-btn" onclick="sendSimulatedQuery('Find research gaps')">Find research gaps</button>
-          <button class="chip-btn" onclick="sendSimulatedQuery('Discover emerging trends')">Discover emerging trends</button>
-          <button class="chip-btn" onclick="sendSimulatedQuery('Suggest innovation directions')">Suggest innovation directions</button>
-        </div>
-        <div class="term-input-wrapper hidden" id="term-input-wrapper">
-          <span class="term-prefix">></span>
-          <input type="text" id="term-input" placeholder="Type your own research query..." autocomplete="off">
+        <div class="terminal-loader">
+          <span class="term-prefix">></span> Connecting to IBM watsonx Orchestrate...<span class="term-cursor">|</span>
         </div>
       </div>
     </div>
   </div>
 </section>
-
 
 <!-- Section 6: Minimal Luxury Footer -->
 <footer>
@@ -1155,22 +907,12 @@
   window.wxOConfiguration = {
     orchestrationID: "f62df774d49b490da682619261009141_7971b198-8850-4b5d-9e5a-7a0b563de535",
     hostURL: "https://au-syd.watson-orchestrate.cloud.ibm.com",
-    rootElementID: "watson-widget-container",
+    rootElementID: "root",
     deploymentPlatform: "ibmcloud",
     crn: "crn:v1:bluemix:public:watsonx-orchestrate:au-syd:a/f62df774d49b490da682619261009141:7971b198-8850-4b5d-9e5a-7a0b563de535::",
     chatOptions: {
         agentId: "793e74bb-4eee-4e74-9e73-b205859b041e", 
         agentEnvironmentId: "1964875f-8f42-4189-bec5-c51f6d2324db",
-        showLauncher: false,
-        onLoad: function(instance) {
-          // Hide fallback terminal
-          const fallback = document.querySelector('.fallback-terminal');
-          if (fallback) fallback.style.display = 'none';
-          
-          // Show real watson widget container
-          const container = document.getElementById('watson-widget-container');
-          if (container) container.style.display = 'block';
-        }
     }
   };
   setTimeout(function () {
@@ -1180,277 +922,7 @@
         wxoLoader.init();
     });
     document.head.appendChild(script);
-  }, 0);                     
-</script>
-
-<!-- UI Micro-interactions script -->
-<script>
-  const cursor = document.getElementById('cursor');
-  const ring = document.getElementById('cursor-ring');
-  let mx = 0, my = 0; // Mouse coords
-  let rx = 0, ry = 0; // Ring coords
-  let targetX = 0, targetY = 0;
-  let isHovered = false;
-
-  // Custom Cursor follow
-  document.addEventListener('mousemove', e => {
-    mx = e.clientX;
-    my = e.clientY;
-    cursor.style.left = mx + 'px';
-    cursor.style.top = my + 'px';
-  });
-
-  (function loop() {
-    if (!isHovered) {
-      rx += (mx - rx) * 0.15;
-      ry += (my - ry) * 0.15;
-      ring.style.left = rx + 'px';
-      ring.style.top = ry + 'px';
-    } else {
-      rx += (targetX - rx) * 0.2;
-      ry += (targetY - ry) * 0.2;
-      ring.style.left = rx + 'px';
-      ring.style.top = ry + 'px';
-    }
-    requestAnimationFrame(loop);
-  })();
-
-  // Magnet effect on nav links & CTA button
-  const magnets = document.querySelectorAll('.nav-link, .luxury-cta');
-  magnets.forEach(item => {
-    item.addEventListener('mouseenter', e => {
-      isHovered = true;
-      const rect = item.getBoundingClientRect();
-      targetX = rect.left + rect.width / 2;
-      targetY = rect.top + rect.height / 2;
-      
-      cursor.style.transform = 'translate(-50%, -50%) scale(1.5)';
-      cursor.style.background = 'var(--accent)';
-      
-      ring.style.width = (rect.width + 16) + 'px';
-      ring.style.height = (rect.height + 12) + 'px';
-      ring.style.borderRadius = '2px';
-      ring.style.borderColor = 'var(--accent)';
-      ring.style.opacity = '0.8';
-    });
-
-    item.addEventListener('mouseleave', () => {
-      isHovered = false;
-      cursor.style.transform = 'translate(-50%, -50%) scale(1)';
-      cursor.style.background = 'var(--accent)';
-      
-      ring.style.width = '32px';
-      ring.style.height = '32px';
-      ring.style.borderRadius = '50%';
-      ring.style.borderColor = 'var(--paper)';
-      ring.style.opacity = '0.2';
-    });
-  });
-
-  // 3D Card Tilt Micro-interaction
-  const tiltCards = document.querySelectorAll('.tilt-card');
-  tiltCards.forEach(card => {
-    card.addEventListener('mousemove', e => {
-      const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      
-      // Calculate rotation angles (-8deg to 8deg)
-      const rY = ((x / rect.width) - 0.5) * 16;
-      const rX = (((y / rect.height) - 0.5) * -16);
-      
-      card.style.setProperty('--tilt-x', rX + 'deg');
-      card.style.setProperty('--tilt-y', rY + 'deg');
-    });
-    
-    card.addEventListener('mouseleave', () => {
-      card.style.setProperty('--tilt-x', '0deg');
-      card.style.setProperty('--tilt-y', '0deg');
-    });
-  });
-
-  // Scroll & Mouse Move Parallax using CSS Custom Properties
-  window.addEventListener('scroll', () => {
-    const scrolled = window.pageYOffset;
-    document.querySelectorAll('.parallax-el').forEach(el => {
-      const speed = parseFloat(el.getAttribute('data-parallax-speed') || '0');
-      const offset = scrolled * speed;
-      el.style.transform = `translateY(${offset}px)`;
-    });
-  });
-
-
-
-  // Smooth background scroll shifting
-  const bleedBg = document.getElementById('bleed-bg');
-  window.addEventListener('scroll', () => {
-    if (bleedBg) {
-      const rect = bleedBg.parentElement.getBoundingClientRect();
-      const visiblePct = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
-      if (visiblePct >= 0 && visiblePct <= 1) {
-        bleedBg.style.transform = `translateY(${(visiblePct - 0.5) * 80}px)`;
-      }
-    }
-  });
-
-  // Fallback Console Terminal Boot Typing Simulation
-  const messages = [
-    "Establishing quantum interface tunnel...",
-    "Securing credentials via IBM cloud platform...",
-    "Hello! I'm Research Agent AI. What would you like to research today?"
-  ];
-  let currentMsgIdx = 0;
-  let currentCharIdx = 0;
-  const termTyping = document.getElementById('term-typing');
-  
-  function typeMessage() {
-    if (currentMsgIdx >= messages.length) return;
-    const msg = messages[currentMsgIdx];
-    if (currentCharIdx < msg.length) {
-      termTyping.textContent += msg.charAt(currentCharIdx);
-      currentCharIdx++;
-      setTimeout(typeMessage, 12 + Math.random() * 10);
-    } else {
-      setTimeout(() => {
-        if (currentMsgIdx < messages.length - 1) {
-          termTyping.innerHTML += "<br><span style='color: var(--accent); font-weight: bold;'>&gt;</span> ";
-          currentMsgIdx++;
-          currentCharIdx = 0;
-          typeMessage();
-        } else {
-          // Finished booting, hide boot cursor
-          const bootCursor = document.getElementById('boot-cursor');
-          if (bootCursor) bootCursor.style.display = 'none';
-
-          const chips = document.getElementById('suggest-chips');
-          if (chips) {
-            chips.classList.remove('hidden');
-            setTimeout(() => chips.classList.add('show'), 50);
-          }
-
-          const inputWrapper = document.getElementById('term-input-wrapper');
-          if (inputWrapper) {
-            inputWrapper.classList.remove('hidden');
-            setTimeout(() => inputWrapper.classList.add('show'), 50);
-          }
-        }
-      }, 700);
-    }
-  }
-  setTimeout(typeMessage, 300);
-
-  // Keydown listener for the custom terminal input
-  const termInput = document.getElementById('term-input');
-  if (termInput) {
-    termInput.addEventListener('keydown', e => {
-      if (e.key === 'Enter') {
-        const query = termInput.value;
-        sendSimulatedQuery(query);
-        termInput.value = "";
-      }
-    });
-  }
-
-  // Simulated Query handler for interactive suggestion chips & typing
-  function sendSimulatedQuery(query) {
-    if (!query || query.trim() === "") return;
-    
-    const termHistory = document.getElementById('term-history');
-    
-    // Add user query to history
-    termHistory.innerHTML += `
-      <div style="margin-top: 20px;">
-        <span style="color: var(--accent); font-weight: bold;">User:</span> ${query}
-      </div>
-    `;
-    
-    // Hide suggestions and input
-    const chips = document.getElementById('suggest-chips');
-    if (chips) {
-      chips.classList.remove('show');
-      setTimeout(() => chips.classList.add('hidden'), 400);
-    }
-    const inputWrapper = document.getElementById('term-input-wrapper');
-    if (inputWrapper) {
-      inputWrapper.classList.remove('show');
-      setTimeout(() => inputWrapper.classList.add('hidden'), 400);
-    }
-    
-    // Scroll term-history to bottom
-    termHistory.scrollTop = termHistory.scrollHeight;
-
-    // Simulate thinking indicator
-    const thinkingId = 'thinking-' + Date.now();
-    termHistory.innerHTML += `
-      <div id="${thinkingId}" style="margin-top: 12px; color: var(--muted);">
-        <span style="color: var(--accent); font-weight: bold;">Agent:</span> Analyzing corpus, generating structured report... <span class="term-cursor">|</span>
-      </div>
-    `;
-    termHistory.scrollTop = termHistory.scrollHeight;
-    
-    setTimeout(() => {
-      // Remove thinking indicator
-      const thinkingEl = document.getElementById(thinkingId);
-      if (thinkingEl) thinkingEl.remove();
-      
-      // Select response HTML based on query keywords
-      const normalized = query.toLowerCase();
-      let responseHtml = "";
-      
-      if (normalized.includes('gap') || normalized.includes('unexplored') || normalized.includes('mapping')) {
-        responseHtml = `
-          <div class="report-block"><span style="color: var(--accent); font-weight: bold;">Agent:</span> <strong>REPORT GENERATION: RESEARCH GAPS</strong></div>
-          <div class="report-block" style="margin-top: 8px; border-top: 1px dashed var(--line); padding-top: 8px;"><strong>01 Executive Summary</strong><br>Analyzing literature for structural omissions. Significant whitespace identified in high-velocity corridors.</div>
-          <div class="report-block" style="margin-top: 12px;"><strong>02 Research Landscape</strong><br>Current focus is concentrated on standard transformer architectures and token-based synthesis.</div>
-          <div class="report-block" style="margin-top: 12px;"><strong>03 Research Gaps</strong><br>- Lack of cross-domain benchmarks for non-textual research modalities.<br>- Low correlation mapping between biochemical papers and engineering frameworks.</div>
-          <div class="report-block" style="margin-top: 12px;"><strong>04 Key Takeaways</strong><br>Targeting multi-modal cross-correlation offers highest innovation yield.</div>
-        `;
-      } else if (normalized.includes('summarize') || normalized.includes('paper') || normalized.includes('literature')) {
-        responseHtml = `
-          <div class="report-block"><span style="color: var(--accent); font-weight: bold;">Agent:</span> <strong>REPORT GENERATION: LITERATURE SUMMARY</strong></div>
-          <div class="report-block" style="margin-top: 8px; border-top: 1px dashed var(--line); padding-top: 8px;"><strong>01 Executive Summary</strong><br>Synthesized 4.2k active publications. Consensus shows 82% convergence on hybrid-neural semantic models.</div>
-          <div class="report-block" style="margin-top: 12px;"><strong>02 Research Landscape</strong><br>Emerging paradigm shift from static search indices to generative cognitive mapping.</div>
-          <div class="report-block" style="margin-top: 12px;"><strong>03 Recommended Tools</strong><br>watsonx Orchestrate pipelines, LangChain integrations, custom vector stores.</div>
-          <div class="report-block" style="margin-top: 12px;"><strong>04 Key Takeaways</strong><br>Literature indicates shift towards decentralized knowledge retrieval systems.</div>
-        `;
-      } else if (normalized.includes('trend') || normalized.includes('emerging') || normalized.includes('discovery')) {
-        responseHtml = `
-          <div class="report-block"><span style="color: var(--accent); font-weight: bold;">Agent:</span> <strong>REPORT GENERATION: TREND DISCOVERY</strong></div>
-          <div class="report-block" style="margin-top: 8px; border-top: 1px dashed var(--line); padding-top: 8px;"><strong>01 Executive Summary</strong><br>Tracking velocity in emerging academic clusters. Neural-symbolic reasoning shows a +140% citation velocity.</div>
-          <div class="report-block" style="margin-top: 12px;"><strong>02 Research Landscape</strong><br>Shift from purely statistical language modeling to logical fact verification structures.</div>
-          <div class="report-block" style="margin-top: 12px;"><strong>03 Innovation Suggestions</strong><br>Deploy zero-shot cross-attention networks for real-time patent drift mapping.</div>
-          <div class="report-block" style="margin-top: 12px;"><strong>04 Key Takeaways</strong><br>Velocity indicators point to symbolic hybrid models dominating the next academic cycle.</div>
-        `;
-      } else {
-        const topic = query.charAt(0).toUpperCase() + query.slice(1);
-        responseHtml = `
-          <div class="report-block"><span style="color: var(--accent); font-weight: bold;">Agent:</span> <strong>REPORT GENERATION: ${topic.toUpperCase()}</strong></div>
-          <div class="report-block" style="margin-top: 8px; border-top: 1px dashed var(--line); padding-top: 8px;"><strong>01 Executive Summary</strong><br>Synthesized active signals for "${topic}". High interest detected among industry R&D groups.</div>
-          <div class="report-block" style="margin-top: 12px;"><strong>02 Research Landscape</strong><br>Existing methods utilize traditional rule-based algorithms. Moving rapidly toward autonomous agent coordination.</div>
-          <div class="report-block" style="margin-top: 12px;"><strong>03 Research Gaps</strong><br>Lack of robust validation frameworks and standardized performance metrics for "${topic}".</div>
-          <div class="report-block" style="margin-top: 12px;"><strong>04 Key Takeaways</strong><br>Early stage opportunities exist for immediate cross-domain implementation.</div>
-        `;
-      }
-      
-      // Append the agent response
-      termHistory.innerHTML += `
-        <div class="report-output-wrapper">
-          ${responseHtml}
-        </div>
-      `;
-      termHistory.scrollTop = termHistory.scrollHeight;
-      
-      // Show suggestions and input back
-      if (chips) {
-        chips.classList.remove('hidden');
-        setTimeout(() => chips.classList.add('show'), 50);
-      }
-      if (inputWrapper) {
-        inputWrapper.classList.remove('hidden');
-        setTimeout(() => inputWrapper.classList.add('show'), 50);
-      }
-    }, 1500);
-  }
+  }, 0);   
 </script>
 
 </body>

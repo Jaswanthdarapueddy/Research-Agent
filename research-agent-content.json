@@ -1,0 +1,161 @@
+{
+  "site": {
+    "title": "Research Agent — Powered by IBM watsonx Orchestrate",
+    "logo": "Research Agent",
+    "navBadge": "watsonx"
+  },
+  "navigation": [
+    { "label": "Start Research", "href": "#hero" },
+    { "label": "Capabilities", "href": "#bento" },
+    { "label": "What it does", "href": "#discovery-detail" },
+    { "label": "Ask Agent", "href": "#chat-section" }
+  ],
+  "hero": {
+    "eyebrow": "Powered by IBM watsonx Orchestrate",
+    "title": "Research Agent",
+    "titleHighlight": "Agent",
+    "description": "Hello! How can I help with your research today?",
+    "cta": {
+      "label": "Start Discovery",
+      "href": "#chat-section"
+    }
+  },
+  "marquee": [
+    { "text": "LITERATURE REVIEW", "highlight": "SYNTHESIS" },
+    { "text": "TREND DISCOVERY", "highlight": "SIGNAL" },
+    { "text": "GAP ANALYSIS", "highlight": "MAPPING" },
+    { "text": "INNOVATION IDEAS", "highlight": "CREATION" }
+  ],
+  "capabilities": {
+    "sectionTitle": "Capabilities",
+    "items": [
+      {
+        "id": "01",
+        "category": "Synthesis",
+        "title": "Literature Review",
+        "description": "Synthesize methodologies, outcomes, and domain contradictions across millions of research papers instantly.",
+        "size": "large",
+        "progress": 85
+      },
+      {
+        "id": "02",
+        "category": "Signals",
+        "title": "Trend Discovery",
+        "description": "Identify topic velocity and clustering before indicators manifest in mainstream journals.",
+        "size": "small",
+        "progress": 58
+      },
+      {
+        "id": "03",
+        "category": "Mapping",
+        "title": "Gap Analysis",
+        "description": "Track empty academic corridors and map unexplored methodologies automatically.",
+        "size": "small",
+        "progress": 72
+      },
+      {
+        "id": "04",
+        "category": "Innovation",
+        "title": "Cognitive Suggestions",
+        "description": "Obtain novel research concepts, complete with feasibility analysis and cross-domain correlation maps.",
+        "size": "large",
+        "progress": 90
+      }
+    ]
+  },
+  "intelligenceSection": {
+    "eyebrow": "What Research Agent does",
+    "title": "Structured intelligence, on any research topic",
+    "description": "Research Agent analyzes any topic and delivers structured, professional insights — helping researchers, students, and industry professionals understand, explore, and innovate within their subject area.",
+    "items": [
+      {
+        "numeral": "I",
+        "title": "Executive Summary",
+        "description": "Concise overview of the topic and key insights at a glance."
+      },
+      {
+        "numeral": "II",
+        "title": "Research Landscape",
+        "description": "Existing technologies, methods, and recent developments."
+      },
+      {
+        "numeral": "III",
+        "title": "Key Findings",
+        "description": "Important discoveries, trends, and observations from available research."
+      },
+      {
+        "numeral": "IV",
+        "title": "Gap Analysis",
+        "description": "Unexplored areas and opportunities for further investigation."
+      },
+      {
+        "numeral": "V",
+        "title": "Innovation Ideas",
+        "description": "Novel concepts, improvements, and potential breakthrough directions."
+      },
+      {
+        "numeral": "VI",
+        "title": "Comparative Analysis",
+        "description": "Comparison of technologies, methodologies, and frameworks."
+      },
+      {
+        "numeral": "VII",
+        "title": "Future Directions",
+        "description": "Predictions and recommendations for future advancements."
+      },
+      {
+        "numeral": "VIII",
+        "title": "Tools & Technologies",
+        "description": "Suggested frameworks, datasets, platforms, and resources."
+      },
+      {
+        "numeral": "IX",
+        "title": "Challenges & Risks",
+        "description": "Obstacles, risks, and areas requiring further validation."
+      },
+      {
+        "numeral": "X",
+        "title": "Actionable Steps",
+        "description": "Practical next steps for researchers and industry professionals."
+      }
+    ]
+  },
+  "chatSection": {
+    "id": "chat-section",
+    "header": {
+      "logo": "watsonx Orchestrate Shell",
+      "status": "Secured Session"
+    },
+    "loaderText": "Connecting to IBM watsonx Orchestrate..."
+  },
+  "footer": {
+    "logo": "Research Agent",
+    "links": [
+      { "label": "Back to Top", "href": "#hero" }
+    ],
+    "copyright": "© 2026 Research Agent. All rights reserved."
+  },
+  "ibmWatsonxConfig": {
+    "orchestrationID": "f62df774d49b490da682619261009141_7971b198-8850-4b5d-9e5a-7a0b563de535",
+    "hostURL": "https://au-syd.watson-orchestrate.cloud.ibm.com",
+    "rootElementID": "root",
+    "deploymentPlatform": "ibmcloud",
+    "crn": "crn:v1:bluemix:public:watsonx-orchestrate:au-syd:a/f62df774d49b490da682619261009141:7971b198-8850-4b5d-9e5a-7a0b563de535::",
+    "chatOptions": {
+      "agentId": "793e74bb-4eee-4e74-9e73-b205859b041e",
+      "agentEnvironmentId": "1964875f-8f42-4189-bec5-c51f6d2324db"
+    }
+  },
+  "theme": {
+    "ink": "#0C0E14",
+    "paper": "#F0EDE6",
+    "accent": "#63B394",
+    "accent2": "#C45C6A",
+    "muted": "#8A8E99",
+    "line": "rgba(99, 179, 148, 0.14)",
+    "cardBg": "rgba(255, 255, 255, 0.015)",
+    "cardHover": "rgba(255, 255, 255, 0.035)",
+    "tagGreen": "#2E8A6A",
+    "tagAmber": "#B8793A"
+  }
+}
